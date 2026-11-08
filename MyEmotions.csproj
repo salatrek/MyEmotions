@@ -1,0 +1,76 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <!-- Valheim's Mono/BepInEx runtime loads .NET Framework assemblies. C# 10 remains enabled below. -->
+    <TargetFramework>net48</TargetFramework>
+    <LangVersion>10.0</LangVersion>
+    <OutputType>Library</OutputType>
+    <RootNamespace>MyEmotions</RootNamespace>
+    <AssemblyName>MyEmotions</AssemblyName>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <Deterministic>true</Deterministic>
+
+    <ValheimProfilePath Condition="'$(ValheimProfilePath)' == '' and '$(VALHEIM_PROFILE_PATH)' != ''">$(VALHEIM_PROFILE_PATH)</ValheimProfilePath>
+    <BepInExPath Condition="'$(BepInExPath)' == '' and '$(ValheimProfilePath)' != ''">$(ValheimProfilePath)\BepInEx</BepInExPath>
+    <ValheimGamePath Condition="'$(ValheimGamePath)' == '' and '$(VALHEIM_GAME_PATH)' != ''">$(VALHEIM_GAME_PATH)</ValheimGamePath>
+    <ValheimManagedPath Condition="'$(ValheimManagedPath)' == '' and '$(ValheimGamePath)' != ''">$(ValheimGamePath)\valheim_Data\Managed</ValheimManagedPath>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Text.Json" Version="8.0.5" />
+
+    <Reference Include="BepInEx" Condition="Exists('$(BepInExPath)\core\BepInEx.dll')">
+      <HintPath>$(BepInExPath)\core\BepInEx.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+
+    <Reference Include="0Harmony" Condition="Exists('$(BepInExPath)\core\0Harmony.dll')">
+      <HintPath>$(BepInExPath)\core\0Harmony.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+
+    <Reference Include="UnityEngine" Condition="Exists('$(ValheimManagedPath)\UnityEngine.dll')">
+      <HintPath>$(ValheimManagedPath)\UnityEngine.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+
+    <Reference Include="UnityEngine.CoreModule" Condition="Exists('$(ValheimManagedPath)\UnityEngine.CoreModule.dll')">
+      <HintPath>$(ValheimManagedPath)\UnityEngine.CoreModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+
+    <Reference Include="UnityEngine.IMGUIModule" Condition="Exists('$(ValheimManagedPath)\UnityEngine.IMGUIModule.dll')">
+      <HintPath>$(ValheimManagedPath)\UnityEngine.IMGUIModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+
+    <Reference Include="Unity.TextMeshPro" Condition="Exists('$(ValheimManagedPath)\Unity.TextMeshPro.dll')">
+      <HintPath>$(ValheimManagedPath)\Unity.TextMeshPro.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+
+    <Reference Include="assembly_valheim" Condition="Exists('$(ValheimManagedPath)\assembly_valheim.dll')">
+      <HintPath>$(ValheimManagedPath)\assembly_valheim.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+
+    <Reference Include="assembly_guiutils" Condition="Exists('$(ValheimManagedPath)\assembly_guiutils.dll')">
+      <HintPath>$(ValheimManagedPath)\assembly_guiutils.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+
+    <None Update="emotionsConfigs.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+
+    <EmbeddedResource Include="emotionsConfigs.json">
+      <LogicalName>MyEmotions.emotionsConfigs.json</LogicalName>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Emotions\" />
+  </ItemGroup>
+
+</Project>

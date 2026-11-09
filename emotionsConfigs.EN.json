@@ -1,0 +1,342 @@
+{
+  "Enabled": true,
+  "GlobalPhraseCooldownSeconds": 7,
+  "Phrases": {
+    "RainStarted": {
+      "CooldownSeconds": 120,
+      "Phrases": [
+        "Thunder take me. Time to dry my bloody gear again.",
+        "The sky has decided to piss on me again.",
+        "Thor, for fuck's sake, leave the sky alone!",
+        "Odin's watching with his one good eye and laughing at this shit."
+      ]
+    },
+    "WetStarted": {
+      "CooldownSeconds": 120,
+      "Phrases": [
+        "Soaked to the bone. Great, now I have to dry off again. Fuck.",
+        "The rain will stop. This soggy crap I'm wearing? Who knows.",
+        "Wet clothes, miserable mood. Lovely.",
+        "Njord, thanks for the shower. Less ice water next time?"
+      ]
+    },
+    "ColdStarted": {
+      "CooldownSeconds": 120,
+      "Phrases": [
+        "Cold to the bone. Where's my fucking campfire?",
+        "Can't feel my fingers. Can definitely feel my arse freezing.",
+        "Feels like Hel herself is blowing cold air up my armour.",
+        "A bit longer and you can use me as a block of ice."
+      ]
+    },
+    "FogStarted": {
+      "CooldownSeconds": 120,
+      "Phrases": [
+        "By Odin's one eye, this fog is thicker than a troll's skull.",
+        "Can't see shit. And it's not even night.",
+        "Did Nidhogg fart? Where the hell is north?",
+        "Fog so bloody thick, Odin couldn't find his own missing eye."
+      ]
+    },
+    "SailingStarted": {
+      "CooldownSeconds": 60,
+      "Phrases": [
+        "Wind in my face, full speed ahead! Try stopping me, Njord!",
+        "Sail's up, spirits high. Off to adventure and whatever the fuck comes next.",
+        "Ship's moving, crew's swearing. Just as Odin intended.",
+        "Onward to glory, frostbite and another disaster at sea.",
+        "If we hit the shore, I'll say it was all part of the bloody plan."
+      ]
+    },
+    "BoardedShip": {
+      "CooldownSeconds": 60,
+      "Phrases": [
+        "Time to kick some arse. Just the waves' arse for now.",
+        "Hooray. Another thrilling voyage of doing fuck all.",
+        "I'm on the ship. No getting off until we sink, apparently.",
+        "Deck underfoot, wind in my face. Beats sitting around camp."
+      ]
+    },
+    "BowEquipped": {
+      "CooldownSeconds": 20,
+      "Phrases": [
+        "I'm fucking Legolas. They forgot to give me the ears, though.",
+        "Bow in hand. Someone's about to regret a lot of things.",
+        "Quiet, bastards. The archer's on the hunt.",
+        "Bow drawn, brain off. Perfect plan."
+      ]
+    },
+    "ArrowsDepleted": {
+      "CooldownSeconds": 30,
+      "Phrases": [
+        "Enough shooting. This quiver doesn't shit arrows.",
+        "Out of arrows. Officially an unlicensed archer now.",
+        "Empty quiver. Completely fucked.",
+        "Odin, send arrows. Keep the bloody wisdom."
+      ]
+    },
+    "WeaponDrawn": {
+      "CooldownSeconds": 10,
+      "Phrases": [
+        "Time for a bloody mess.",
+        "Steel's out. First come, first fucking buried.",
+        "Right, enough talking. Let's get to the dismemberment.",
+        "Weapon in hand, brain on holiday."
+      ]
+    },
+    "CauldronOpened": {
+      "CooldownSeconds": 14,
+      "Phrases": [
+        "Cooking up some fucking porridge.",
+        "Mmm. Dad's soup.",
+        "No idea what's in this pot, but it smells bloody good.",
+        "Conjuring dinner like proper kitchen berserkers.",
+        "If this isn't soup, Odin can take me now."
+      ]
+    },
+    "CauldronCookingStarted": {
+      "CooldownSeconds": 14,
+      "Phrases": [
+        "Fire's up. Let's make something fucking edible.",
+        "Pot's boiling, ingredients haven't escaped. Barbarian cooking begins.",
+        "Cooking grub. The Aesir can choke on their ambrosia.",
+        "Let's cook. If it turns out shit, we'll call it Nordic cuisine."
+      ]
+    },
+    "CauldronCookingFinished": {
+      "CooldownSeconds": 14,
+      "Phrases": [
+        "Done. Looks edible. That's a fucking win already.",
+        "Pot's finished. Bring bowls before this crap gets cold.",
+        "Dinner's ready. Odin, you try it first. Unless you're scared.",
+        "Cooked, served, nothing exploded. Kitchen success."
+      ]
+    },
+    "FoodEaten": {
+      "CooldownSeconds": 0,
+      "Phrases": [
+        "Yum.",
+        "Crunch.",
+        "Mmm. Tastes like shit.",
+        "Tasty. Fucking lovely.",
+        "Ate it without choking. Odin approves."
+      ]
+    },
+    "HostileCreatureAttack": {
+      "CooldownSeconds": 14,
+      "Phrases": [
+        "AAAAH, a fucking {enemy}!",
+        "Get this {enemy} away from me!",
+        "Odin, if you're watching, deal with this {enemy} yourself.",
+        "Well, shit. {enemy} thinks I'm on the menu tonight."
+      ]
+    },
+    "PortalUsed": {
+      "CooldownSeconds": 15,
+      "Phrases": [
+        "I fucking hate portals.",
+        "That magic hole again. Can't we just bloody walk?",
+        "Forgive me, Freya. I'm climbing into that glowing shit again.",
+        "One blink and we're across the world. Damn convenient."
+      ]
+    },
+    "SwampEntered": {
+      "CooldownSeconds": 90,
+      "Phrases": [
+        "The Swamp. Even the air's unpleasant here.",
+        "Mud, fog and corpses. Lovely place for a stroll.",
+        "Welcome to this green fucking nightmare.",
+        "Who said Vikings love adventure? I want to go home."
+      ]
+    },
+    "PlainsEntered": {
+      "CooldownSeconds": 90,
+      "Phrases": [
+        "The Plains. Beautiful, quiet... until the mosquito shows up.",
+        "See anything flying and horrible? Just bloody run.",
+        "Too quiet. Something nasty's about to crawl out of the grass.",
+        "Even the grass looks like it wants to kill me."
+      ]
+    },
+    "MountainsEntered": {
+      "CooldownSeconds": 90,
+      "Phrases": [
+        "The Mountains. Fresh air, frozen arse.",
+        "Came for silver. Found cold and suffering.",
+        "If I freeze to death, drag me somewhere warm.",
+        "Odin, why'd you build a world with this much bloody snow?"
+      ]
+    },
+    "MistlandsEntered": {
+      "CooldownSeconds": 90,
+      "Phrases": [
+        "Fog, ticks and fuck knows what else. Lovely.",
+        "Can't see shit, but something's already watching me.",
+        "The Mistlands. Even Odin would get lost here.",
+        "Looks like someone forgot to finish building this place."
+      ]
+    },
+    "DeathsquitoAttack": {
+      "CooldownSeconds": 14,
+      "Phrases": [
+        "Fucking mosquito! It's the size of a spear!",
+        "Who gave that flying bastard wings?",
+        "That's no mosquito. That's death with a stinger.",
+        "Odin, get this winged fucking thing away from me!"
+      ]
+    },
+    "RaidStarted": {
+      "CooldownSeconds": 60,
+      "Phrases": [
+        "Raid! Who forgot to close the bloody gate?",
+        "Enemies at the walls and I haven't even had dinner.",
+        "Odin, cover the base before we all shit ourselves.",
+        "Well, there goes the quiet life."
+      ]
+    },
+    "BossSummoned": {
+      "CooldownSeconds": 60,
+      "Phrases": [
+        "So that's {boss}? Looks like a big fucking problem.",
+        "Right. This chat with {boss} will be short and bloody.",
+        "Odin, if you're watching, now's a great time to help.",
+        "Anyone remember why we summoned this thing?"
+      ]
+    },
+    "PlayerDeath": {
+      "CooldownSeconds": 30,
+      "Phrases": [
+        "Odin, if that was a test, I failed.",
+        "Valhalla can wait. I haven't finished stealing things.",
+        "I got killed. Let's keep that between us, fuck's sake.",
+        "At least now I know exactly what not to do."
+      ]
+    },
+    "PlayerRespawned": {
+      "CooldownSeconds": 30,
+      "Phrases": [
+        "Hel spat me out. Even she got sick of me.",
+        "Alive again. Who forgot to finish me off properly?",
+        "The hero returns. No gear, face still wrecked.",
+        "Right. Where's my corpse, and why is it so bloody far away?"
+      ]
+    },
+    "EncumberedStarted": {
+      "CooldownSeconds": 20,
+      "Phrases": [
+        "I'm not a Viking. I'm a bloody warehouse with legs.",
+        "Why am I carrying this many rocks? Because I'm an idiot.",
+        "One more item and I'll count as furniture.",
+        "Maybe picking up every last stick was a bad idea."
+      ]
+    },
+    "LowHealthStarted": {
+      "CooldownSeconds": 20,
+      "Phrases": [
+        "One more hit and I'm filing a complaint with Odin in person.",
+        "I've got less health than that troll has brains.",
+        "Stay calm. Try not to die of your own stupidity.",
+        "Need healing. Heroism's about to run out."
+      ]
+    },
+    "WeaponBroken": {
+      "CooldownSeconds": 30,
+      "Phrases": [
+        "Weapon's broken. Time to stare the bastards to death.",
+        "Sword fell apart. Enemies are still alive, somehow.",
+        "Out of steel. Out of patience.",
+        "Should've brought a spare instead of trusting in miracles."
+      ]
+    },
+    "FallDamageTaken": {
+      "CooldownSeconds": 14,
+      "Phrases": [
+        "Superhero landing. Knees are fucked.",
+        "Didn't fall. Just tested the ground's durability.",
+        "Next time I'll use the bloody stairs.",
+        "Perfect landing. My legs seem to disagree."
+      ]
+    },
+    "FishingCatch": {
+      "CooldownSeconds": 7,
+      "Phrases": [
+        "Fish caught. The sea won't be happy about this.",
+        "Got you, you scaly bastard.",
+        "Now we're getting some proper food.",
+        "Njord, thanks for dinner. No strings attached this time."
+      ]
+    },
+    "TreeFelled": {
+      "CooldownSeconds": 7,
+      "Phrases": [
+        "Tree defeated. The forest will remember this.",
+        "Another giant falls to my axe.",
+        "Tree down. Nature loses again.",
+        "That's how you build civilisation. One bloody trunk at a time."
+      ]
+    },
+    "TamedCreature": {
+      "CooldownSeconds": 30,
+      "Phrases": [
+        "Tamed {creature}. Another mouth to bloody feed.",
+        "Welcome to the family, {creature}. Don't touch my stuff.",
+        "Another soul in my care. Why did I do this?",
+        "My beast now. Touch it and you answer to me."
+      ]
+    },
+    "RestedBuffStarted": {
+      "CooldownSeconds": 60,
+      "Phrases": [
+        "Rested up. Almost useful again.",
+        "Fire, a roof and food. Now that's luxury.",
+        "Energy's back. Time to fuck everything up again.",
+        "Right. Ready to go and make some new mistakes."
+      ]
+    },
+    "RestedBuffExpired": {
+      "CooldownSeconds": 60,
+      "Phrases": [
+        "Rest's over. Back to suffering.",
+        "Buff's gone. Just a tired bloody Viking again.",
+        "Who turned off the comfort? I was just starting to enjoy life.",
+        "Out of energy. Somehow the adventures keep coming."
+      ]
+    },
+    "CraftingCompleted": {
+      "CooldownSeconds": 14,
+      "Phrases": [
+        "Done. Not perfect, but it didn't explode.",
+        "Made it. Hammer's intact. Good day.",
+        "There we go. Hope this thing's actually useful.",
+        "Done. Now I can pretend it all went to plan."
+      ]
+    },
+    "ShelterEntered": {
+      "CooldownSeconds": 60,
+      "Phrases": [
+        "Finally, a roof. The rain can fuck right off.",
+        "Home sweet home. At least nothing kills me immediately here.",
+        "Under a roof. Officially no longer a soggy idiot.",
+        "Humanity's greatest invention? A decent bloody door."
+      ]
+    },
+    "PlantHarvested": {
+      "CooldownSeconds": 14,
+      "Phrases": [
+        "Harvested {plant}. The land owes me again.",
+        "{plant} is ripe. Now that's a proper victory.",
+        "The soil gave me {plant}. I still want meat.",
+        "Harvest's in. Time to go back to growing absolutely nothing."
+      ]
+    },
+    "WildPlantGathered": {
+      "CooldownSeconds": 7,
+      "Phrases": [
+        "Picked {plant}. Nature's delivering dinner now.",
+        "Another {plant} on its way to my stomach.",
+        "Found {plant}. Hope it's not some poisonous green shit.",
+        "Forest shared its supplies. It's on our side today."
+      ]
+    }
+  }
+}

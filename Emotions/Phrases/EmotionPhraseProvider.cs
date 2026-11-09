@@ -8,8 +8,10 @@ namespace MyEmotions.Emotions.Phrases;
 /// </summary>
 public sealed class EmotionPhraseProvider
 {
-    private readonly MyEmotionsOptions _options;
+    private readonly MyEmotionsOptions _russianOptions;
+    private readonly MyEmotionsOptions _englishOptions;
     private readonly Random _random;
+    private readonly Func<string?> _getGameLanguage;
     private readonly Dictionary<EmotionSituation, string> _previousPhrases = new();
     private readonly Dictionary<string, DateTimeOffset> _nextPhraseAvailableAt =
         new(StringComparer.OrdinalIgnoreCase);
@@ -17,11 +19,15 @@ public sealed class EmotionPhraseProvider
 
     /// <summary>Creates a provider backed by application options.</summary>
     public EmotionPhraseProvider(
-        MyEmotionsOptions options,
-        Random? random = null)
+        MyEmotionsOptions russianOptions,
+        MyEmotionsOptions englishOptions,
+        Random? random = null,
+        Func<string?>? getGameLanguage = null)
     {
-        _options = options ?? throw new ArgumentNullException(nameof(options));
+        _russianOptions = russianOptions ?? throw new ArgumentNullException(nameof(russianOptions));
+        _englishOptions = englishOptions ?? throw new ArgumentNullException(nameof(englishOptions));
         _random = random ?? new Random();
+        _getGameLanguage = getGameLanguage ?? EmotionLanguage.GetSelectedGameLanguage;
     }
 
     /// <summary>
@@ -31,7 +37,10 @@ public sealed class EmotionPhraseProvider
         EmotionSituation situation,
         IReadOnlyDictionary<string, string>? context = null)
     {
-        if (!_options.Enabled)
+        var options = EmotionLanguage.IsRussian(_getGameLanguage())
+            ? _russianOptions
+            : _englishOptions;
+        if (!options.Enabled)
         {
             return null;
         }
@@ -42,7 +51,7 @@ public sealed class EmotionPhraseProvider
             return null;
         }
 
-        if (!TryGetUsablePhrases(situation, out var option, out var phrases))
+        if (!TryGetUsablePhrases(options, situation, out var option, out var phrases))
         {
             return null;
         }
@@ -70,7 +79,7 @@ public sealed class EmotionPhraseProvider
 
         var phrase = candidates[_random.Next(candidates.Length)];
         _previousPhrases[situation] = phrase;
-        _nextGlobalPhraseAvailableAt = now.AddSeconds(_options.GlobalPhraseCooldownSeconds);
+        _nextGlobalPhraseAvailableAt = now.AddSeconds(options.GlobalPhraseCooldownSeconds);
         _nextPhraseAvailableAt[cooldownKey] = now.AddSeconds(option.CooldownSeconds);
 
         return RenderTemplate(phrase, context);
@@ -85,12 +94,13 @@ public sealed class EmotionPhraseProvider
             : situation.ToString();
     }
 
-    private bool TryGetUsablePhrases(
+    private static bool TryGetUsablePhrases(
+        MyEmotionsOptions options,
         EmotionSituation situation,
         out PhraseOption option,
         out string[] phrases)
     {
-        if (_options.Phrases.TryGetValue(situation, out option!)
+        if (options.Phrases.TryGetValue(situation, out option!)
             && option is not null
             && option.Enabled)
         {

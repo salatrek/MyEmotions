@@ -1,6 +1,7 @@
 using HarmonyLib;
 using BepInEx.Logging;
 using MyEmotions.Emotions.Situations;
+using MyEmotions.Emotions.Phrases;
 using UnityEngine;
 
 namespace MyEmotions.Emotions.Detection;
@@ -903,7 +904,7 @@ internal static class SituationDetectionPatches
         var bossName = LocalizeGameText(
             __instance.GetComponentInParent<BossStone>()?.name
                 .Replace("(Clone)", string.Empty)
-            ?? "босс");
+            ?? (EmotionLanguage.IsRussian(EmotionLanguage.GetSelectedGameLanguage()) ? "босс" : "boss"));
         var handled = _situationHandler.TryHandle(
             EmotionSituation.BossSummoned,
             new Dictionary<string, string>

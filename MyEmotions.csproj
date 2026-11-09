@@ -60,12 +60,13 @@
       <Private>False</Private>
     </Reference>
 
-    <None Update="emotionsConfigs.json">
+    <None Update="emotionsConfigs.RU.json;emotionsConfigs.EN.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
 
-    <EmbeddedResource Include="emotionsConfigs.json">
-      <LogicalName>MyEmotions.emotionsConfigs.json</LogicalName>
+    <EmbeddedResource Include="emotionsConfigs.RU.json;emotionsConfigs.EN.json">
+      <WithCulture>false</WithCulture>
+      <LogicalName>MyEmotions.%(Filename)%(Extension)</LogicalName>
     </EmbeddedResource>
   </ItemGroup>
 

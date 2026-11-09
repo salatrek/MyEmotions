@@ -1,15 +1,22 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using System.Reflection;
 using BepInEx.Logging;
 using MyEmotions.Emotions.Situations;
 
 namespace MyEmotions.Emotions.Configuration;
 
 /// <summary>
-/// Loads MyEmotions settings from emotionsConfigs.json.
+/// Loads MyEmotions settings from a language-specific JSON file.
 /// </summary>
 public static class MyEmotionsOptionsFile
 {
+    /// <summary>Russian phrase configuration filename.</summary>
+    public const string RussianFileName = "emotionsConfigs.RU.json";
+
+    /// <summary>English phrase configuration filename.</summary>
+    public const string EnglishFileName = "emotionsConfigs.EN.json";
+
     private static readonly JsonSerializerOptions SerializerOptions = new()
     {
         PropertyNameCaseInsensitive = true,
@@ -63,6 +70,77 @@ public static class MyEmotionsOptionsFile
         }
 
         return options;
+    }
+
+    /// <summary>Creates missing language files and migrates the old combined file without modifying it.</summary>
+    public static void EnsureLocalizedFiles(string directory, ManualLogSource logger)
+    {
+        Directory.CreateDirectory(directory);
+        foreach (var fileName in new[] { RussianFileName, EnglishFileName })
+        {
+            var path = Path.Combine(directory, fileName);
+            if (File.Exists(path))
+            {
+                continue;
+            }
+
+            using var template = Assembly.GetExecutingAssembly()
+                .GetManifestResourceStream($"MyEmotions.{fileName}")
+                ?? throw new InvalidDataException($"Embedded '{fileName}' was not found.");
+            var options = JsonSerializer.Deserialize<MyEmotionsOptions>(template, SerializerOptions)
+                ?? throw new InvalidDataException($"Embedded '{fileName}' is empty.");
+            var legacyPath = Path.Combine(directory, "emotionsConfigs.json");
+            if (File.Exists(legacyPath))
+            {
+                var legacy = Load(legacyPath, logger);
+                if (fileName == RussianFileName)
+                {
+                    options = legacy;
+                }
+                else
+                {
+                    options.Enabled = legacy.Enabled;
+                    options.GlobalPhraseCooldownSeconds = legacy.GlobalPhraseCooldownSeconds;
+                    // EnglishPhrases existed in the earlier combined format only.
+                    using var document = JsonDocument.Parse(File.ReadAllText(legacyPath),
+                        new JsonDocumentOptions { AllowTrailingCommas = true, CommentHandling = JsonCommentHandling.Skip });
+                    var legacyPhrases = FindProperty(document.RootElement, "Phrases");
+                    foreach (var pair in legacy.Phrases)
+                    {
+                        if (!options.Phrases.TryGetValue(pair.Key, out var translated))
+                        {
+                            continue;
+                        }
+
+                        translated.Enabled = pair.Value.Enabled;
+                        translated.CooldownSeconds = pair.Value.CooldownSeconds;
+                        var entry = FindProperty(legacyPhrases, pair.Key.ToString());
+                        var phrases = FindProperty(entry, "EnglishPhrases");
+                        if (phrases.ValueKind == JsonValueKind.Array)
+                        {
+                            translated.Phrases = JsonSerializer.Deserialize<List<string>>(
+                                phrases.GetRawText(), SerializerOptions) ?? new List<string>();
+                        }
+                    }
+                }
+            }
+
+            var writeOptions = new JsonSerializerOptions(SerializerOptions)
+            {
+                WriteIndented = true,
+                Encoder = System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping
+            };
+            File.WriteAllText(path, JsonSerializer.Serialize(options, writeOptions));
+            logger.LogInfo($"Created configuration at '{path}'.");
+        }
+    }
+
+    private static JsonElement FindProperty(JsonElement element, string name)
+    {
+        return element.ValueKind == JsonValueKind.Object
+            ? element.EnumerateObject()
+                .FirstOrDefault(property => string.Equals(property.Name, name, StringComparison.OrdinalIgnoreCase)).Value
+            : default;
     }
 
     private static PhraseOption NormalizePhraseOption(

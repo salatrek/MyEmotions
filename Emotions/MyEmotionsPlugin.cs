@@ -1,6 +1,5 @@
 using BepInEx;
 using HarmonyLib;
-using System.Reflection;
 using MyEmotions.Emotions.Chat;
 using MyEmotions.Emotions.Configuration;
 using MyEmotions.Emotions.Phrases;
@@ -18,7 +17,6 @@ public sealed class MyEmotionsPlugin : BaseUnityPlugin
     private const string PluginGuid = "salatrek.MyEmotions";
     private const string PluginName = "MyEmotions";
     private const string PluginVersion = "0.1.0";
-    private const string ConfigurationFileName = "emotionsConfigs.json";
 
     private readonly Harmony _harmony = new(PluginGuid);
     private EmotionPhraseProvider? _phraseProvider;
@@ -26,16 +24,23 @@ public sealed class MyEmotionsPlugin : BaseUnityPlugin
 
     private void Awake()
     {
-        var configurationPath = Path.Combine(Paths.ConfigPath, ConfigurationFileName);
-
-        if (!EnsureConfigurationFile(configurationPath))
+        try
         {
+            MyEmotionsOptionsFile.EnsureLocalizedFiles(Paths.ConfigPath, Logger);
+        }
+        catch (Exception exception)
+        {
+            Logger.LogError($"Could not create language configurations: {exception}");
             return;
         }
 
-        var options = MyEmotionsOptionsFile.Load(configurationPath, Logger);
-        options = MyEmotionsConfigEntries.Bind(Config, options, Logger);
-        _phraseProvider = new EmotionPhraseProvider(options);
+        var russianOptions = MyEmotionsOptionsFile.Load(
+            Path.Combine(Paths.ConfigPath, MyEmotionsOptionsFile.RussianFileName), Logger);
+        var englishOptions = MyEmotionsOptionsFile.Load(
+            Path.Combine(Paths.ConfigPath, MyEmotionsOptionsFile.EnglishFileName), Logger);
+        MyEmotionsConfigEntries.Bind(Config, russianOptions, Logger, "RU");
+        MyEmotionsConfigEntries.Bind(Config, englishOptions, Logger, "EN");
+        _phraseProvider = new EmotionPhraseProvider(russianOptions, englishOptions);
         _situationHandler = new EmotionSituationHandler(
             _phraseProvider,
             new ValheimChatService(Logger));
@@ -46,40 +51,6 @@ public sealed class MyEmotionsPlugin : BaseUnityPlugin
         SituationDetectionPatches.ApplyPatches(_harmony);
 
         Logger.LogInfo("MyEmotions initialized.");
-    }
-
-    private bool EnsureConfigurationFile(string configurationPath)
-    {
-        if (File.Exists(configurationPath))
-        {
-            return true;
-        }
-
-        try
-        {
-            using var template = Assembly.GetExecutingAssembly()
-                .GetManifestResourceStream("MyEmotions.emotionsConfigs.json");
-
-            if (template is null)
-            {
-                Logger.LogError(
-                    "Embedded emotionsConfigs.json was not found; MyEmotions will not provide phrases.");
-                return false;
-            }
-
-            Directory.CreateDirectory(Paths.ConfigPath);
-            using var configuration = File.Create(configurationPath);
-            template.CopyTo(configuration);
-
-            Logger.LogInfo($"Created default configuration at '{configurationPath}'.");
-            return true;
-        }
-        catch (Exception exception)
-        {
-            Logger.LogError(
-                $"Could not create configuration file '{configurationPath}': {exception}");
-            return false;
-        }
     }
 
     private void OnDestroy()

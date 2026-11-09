@@ -18,7 +18,8 @@ public static class MyEmotionsConfigEntries
     public static MyEmotionsOptions Bind(
         ConfigFile config,
         MyEmotionsOptions options,
-        ManualLogSource logger)
+        ManualLogSource logger,
+        string language = "RU")
     {
         if (config is null)
         {
@@ -35,15 +36,18 @@ public static class MyEmotionsConfigEntries
             throw new ArgumentNullException(nameof(logger));
         }
 
+        // Keep the existing Russian keys so installed configurations retain their overrides.
+        var prefix = language == "RU" ? string.Empty : $"{language}.";
         var enabled = config.Bind(
-            "General",
+            $"{prefix}General",
             "Enabled",
             options.Enabled,
             "Enables or disables all emotion phrases.");
         enabled.SettingChanged += (_, _) => options.Enabled = enabled.Value;
+        options.Enabled = enabled.Value;
 
         var globalCooldown = config.Bind(
-            "General",
+            $"{prefix}General",
             "GlobalPhraseCooldownSeconds",
             (float)Math.Max(0, options.GlobalPhraseCooldownSeconds),
             new ConfigDescription(
@@ -51,6 +55,7 @@ public static class MyEmotionsConfigEntries
                 new AcceptableValueRange<float>(0, MaximumCooldownSeconds)));
         globalCooldown.SettingChanged += (_, _) =>
             options.GlobalPhraseCooldownSeconds = Math.Max(0, globalCooldown.Value);
+        options.GlobalPhraseCooldownSeconds = Math.Max(0, globalCooldown.Value);
 
         foreach (var situation in Enum.GetValues(typeof(EmotionSituation))
                      .Cast<EmotionSituation>())
@@ -58,7 +63,7 @@ public static class MyEmotionsConfigEntries
             var defaults = options.Phrases.TryGetValue(situation, out var option)
                 ? option
                 : new PhraseOption();
-            var section = $"Situations.{situation}";
+            var section = $"{prefix}Situations.{situation}";
 
             var situationEnabled = config.Bind(
                 section,
@@ -67,6 +72,7 @@ public static class MyEmotionsConfigEntries
                 $"Enables the {situation} trigger.");
             situationEnabled.SettingChanged += (_, _) =>
                 defaults.Enabled = situationEnabled.Value;
+            defaults.Enabled = situationEnabled.Value;
 
             var cooldown = config.Bind(
                 section,
@@ -77,13 +83,15 @@ public static class MyEmotionsConfigEntries
                     new AcceptableValueRange<float>(0, MaximumCooldownSeconds)));
             cooldown.SettingChanged += (_, _) =>
                 defaults.CooldownSeconds = Math.Max(0, cooldown.Value);
+            defaults.CooldownSeconds = Math.Max(0, cooldown.Value);
 
             var phrases = config.Bind(
                 section,
                 "Phrases",
                 SerializePhrases(defaults.Phrases),
                 new ConfigDescription(
-                    "Phrase templates, one phrase per line. Empty lines are ignored.",
+                    $"{language} phrase templates. "
+                    + "One phrase per line. Empty lines are ignored.",
                     null,
                     new ConfigurationManagerAttributes
                     {
@@ -91,12 +99,13 @@ public static class MyEmotionsConfigEntries
                     }));
             phrases.SettingChanged += (_, _) =>
                 defaults.Phrases = ParsePhrases(phrases.Value);
+            defaults.Phrases = ParsePhrases(phrases.Value);
 
             options.Phrases[situation] = defaults;
         }
 
         logger.LogInfo(
-            $"Registered {Enum.GetValues(typeof(EmotionSituation)).Length} situations in BepInEx Configuration Manager.");
+            $"Registered {Enum.GetValues(typeof(EmotionSituation)).Length} {language} situations in BepInEx Configuration Manager.");
         return options;
     }
 

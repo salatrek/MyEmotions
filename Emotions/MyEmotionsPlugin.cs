@@ -16,7 +16,7 @@ public sealed class MyEmotionsPlugin : BaseUnityPlugin
 {
     private const string PluginGuid = "salatrek.MyEmotions";
     private const string PluginName = "MyEmotions";
-    private const string PluginVersion = "0.1.0";
+    private const string PluginVersion = "0.1.5";
 
     private readonly Harmony _harmony = new(PluginGuid);
     private EmotionPhraseProvider? _phraseProvider;

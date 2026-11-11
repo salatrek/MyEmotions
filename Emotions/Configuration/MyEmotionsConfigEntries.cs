@@ -104,6 +104,8 @@ public static class MyEmotionsConfigEntries
             options.Phrases[situation] = defaults;
         }
 
+        LegacyConfigMigrator.Migrate(config, options, logger, language);
+
         logger.LogInfo(
             $"Registered {Enum.GetValues(typeof(EmotionSituation)).Length} {language} situations in BepInEx Configuration Manager.");
         return options;
